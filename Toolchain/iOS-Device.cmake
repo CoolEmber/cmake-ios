@@ -34,3 +34,13 @@ endif (NOT DEFINED CMAKE_SYSTEM_VERSION)
 set (UNIX TRUE)
 set (APPLE TRUE)
 set (IOS TRUE)
+
+# Force the compilers to clang for iOS
+include (CMakeForceCompiler)
+CMAKE_FORCE_C_COMPILER (clang Clang)
+CMAKE_FORCE_CXX_COMPILER (clang++ Clang)
+
+# only search the iOS sdks, not the remainder of the host filesystem
+set (CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set (CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set (CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)

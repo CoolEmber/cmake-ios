@@ -12,15 +12,6 @@ STRING(REGEX REPLACE "^([0-9]+)\\.([0-9]+).*$" "\\2" IOS_MINOR_VERSION "${CMAKE_
 STRING(REGEX REPLACE "^([0-9]+)\\.([0-9]+).*$" "\\1" DARWIN_MAJOR_VERSION "${CMAKE_HOST_SYSTEM_VERSION}")
 STRING(REGEX REPLACE "^([0-9]+)\\.([0-9]+).*$" "\\2" DARWIN_MINOR_VERSION "${CMAKE_HOST_SYSTEM_VERSION}")
 
-# Force the compilers to clang for iOS
-include (CMakeForceCompiler)
-CMAKE_FORCE_C_COMPILER (clang Clang)
-CMAKE_FORCE_CXX_COMPILER (clang++ Clang)
-
-# Skip the platform compiler checks for cross compiling
-set (CMAKE_CXX_COMPILER_WORKS TRUE)
-set (CMAKE_C_COMPILER_WORKS TRUE)
-
 IF(NOT DEFINED HAVE_FLAG_SEARCH_PATHS_FIRST)
   SET(HAVE_FLAG_SEARCH_PATHS_FIRST 1)
 ENDIF(NOT DEFINED HAVE_FLAG_SEARCH_PATHS_FIRST)
@@ -195,8 +186,13 @@ SET(CMAKE_SYSTEM_APPBUNDLE_PATH
   ${_apps_paths})
 UNSET(_apps_paths)
 
-INCLUDE(Platform/UnixPaths)
+#INCLUDE(Platform/UnixPaths)
 LIST(APPEND CMAKE_SYSTEM_PREFIX_PATH
   /sw        # Fink
   /opt/local # MacPorts
   )
+
+# This little macro lets you set any XCode specific property
+macro (set_xcode_property TARGET XCODE_PROPERTY XCODE_VALUE)
+	set_property (TARGET ${TARGET} PROPERTY XCODE_ATTRIBUTE_${XCODE_PROPERTY} ${XCODE_VALUE})
+endmacro (set_xcode_property)
