@@ -31,10 +31,6 @@ if (NOT DEFINED CMAKE_SYSTEM_VERSION)
   set (CMAKE_SYSTEM_VERSION "5.1")
 endif (NOT DEFINED CMAKE_SYSTEM_VERSION)
 
-set (UNIX TRUE)
-set (APPLE TRUE)
-set (IOS TRUE)
-
 # Force the compilers to clang for iOS
 include (CMakeForceCompiler)
 CMAKE_FORCE_C_COMPILER (clang Clang)

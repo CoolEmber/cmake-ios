@@ -3,6 +3,7 @@
 # It has been altered for iOS development
 
 SET(APPLE 1)
+SET(IOS 1)
 
 # iOS version
 STRING(REGEX REPLACE "^([0-9]+)\\.([0-9]+).*$" "\\1" IOS_MAJOR_VERSION "${CMAKE_SYSTEM_VERSION}")
@@ -187,6 +188,7 @@ SET(CMAKE_SYSTEM_APPBUNDLE_PATH
 UNSET(_apps_paths)
 
 #INCLUDE(Platform/UnixPaths)
+SET(UNIX 1)
 LIST(APPEND CMAKE_SYSTEM_PREFIX_PATH
   /sw        # Fink
   /opt/local # MacPorts
