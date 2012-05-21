@@ -26,6 +26,7 @@
 
 # Standard settings
 set (CMAKE_SYSTEM_NAME "iOS")
+set (CMAKE_SYSTEM_PROCESSOR "arm")
 set (IOS_PLATFORM "DEVICE")
 if (NOT DEFINED CMAKE_SYSTEM_VERSION)
   set (CMAKE_SYSTEM_VERSION "5.1")
@@ -35,6 +36,10 @@ endif (NOT DEFINED CMAKE_SYSTEM_VERSION)
 include (CMakeForceCompiler)
 CMAKE_FORCE_C_COMPILER (clang Clang)
 CMAKE_FORCE_CXX_COMPILER (clang++ Clang)
+
+# Set compiler flag to designate architecture
+set (CMAKE_C_COMPILER_ARG1 "-arch armv7")
+set (CMAKE_CXX_COMPILER_ARG1 "-arch armv7")
 
 # only search the iOS sdks, not the remainder of the host filesystem
 set (CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
