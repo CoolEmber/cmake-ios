@@ -65,12 +65,12 @@ set (IOS_PLATFORM ${IOS_PLATFORM} CACHE STRING "Type of iOS Platform")
 # Check the platform selection and setup for developer root
 if (${IOS_PLATFORM} STREQUAL "DEVICE")
 	set (IOS_PLATFORM_LOCATION "iPhoneOS.platform")
-	SET (CMAKE_SYSTEM_PROCESSOR "arm")
+	set (IOS_TARGET_ARCH "armv7")
 	# This causes the installers to properly locate the output libraries
 	set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos")
 elseif (${IOS_PLATFORM} STREQUAL "SIMULATOR")
 	set (IOS_PLATFORM_LOCATION "iPhoneSimulator.platform")
-	SET (CMAKE_SYSTEM_PROCESSOR "i386")
+	set (IOS_TARGET_ARCH "i386")
 	# This causes the installers to properly locate the output libraries
 	set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphonesimulator")
 else (${IOS_PLATFORM} STREQUAL "DEVICE")
@@ -186,6 +186,26 @@ LIST(REMOVE_DUPLICATES _apps_paths)
 SET(CMAKE_SYSTEM_APPBUNDLE_PATH
   ${_apps_paths})
 UNSET(_apps_paths)
+
+# Set root path for finding cross platform resources.
+set (CMAKE_FIND_ROOT_PATH
+	${CMAKE_IOS_SDK_ROOT}
+	${CMAKE_IOS_SDK_ROOT}/Developer
+	${CMAKE_IOS_DEVELOPER_ROOT}
+	CACHE string "iOS find serach path root")
+
+# only search the iOS sdks, not the remainder of the host filesystem
+set (CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH)
+set (CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set (CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+
+# Set compiler flag to designate architecture
+set (__CMAKE_C_COMPILER_ARG1_VAL "-arch ${IOS_TARGET_ARCH} -isysroot ${CMAKE_IOS_SDK_ROOT} -miphoneos-version-min=${CMAKE_SYSTEM_VERSION}")
+set (CMAKE_C_COMPILER_ARG1 ${__CMAKE_C_COMPILER_ARG1_VAL})
+set (CMAKE_CXX_COMPILER_ARG1 ${__CMAKE_C_COMPILER_ARG1_VAL})
+
+set(CMAKE_C_HAS_ISYSROOT 1)
+set(CMAKE_CXX_HAS_ISYSROOT 1)
 
 #INCLUDE(Platform/UnixPaths)
 SET(UNIX 1)

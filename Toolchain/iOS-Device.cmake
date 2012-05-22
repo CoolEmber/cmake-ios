@@ -36,12 +36,3 @@ endif (NOT DEFINED CMAKE_SYSTEM_VERSION)
 include (CMakeForceCompiler)
 CMAKE_FORCE_C_COMPILER (clang Clang)
 CMAKE_FORCE_CXX_COMPILER (clang++ Clang)
-
-# Set compiler flag to designate architecture
-set (CMAKE_C_COMPILER_ARG1 "-arch armv7")
-set (CMAKE_CXX_COMPILER_ARG1 "-arch armv7")
-
-# only search the iOS sdks, not the remainder of the host filesystem
-set (CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-set (CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-set (CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
